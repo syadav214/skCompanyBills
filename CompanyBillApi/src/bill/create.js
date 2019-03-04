@@ -3,15 +3,16 @@ module.exports = req => {
   connection.connect();
 
   return new Promise((resolve, reject) => {
-    const query = `INSERT INTO t_firmen (project_ID,name,city,country,contactEmail) VALUES (${
-      req.body.project_ID
-    },'${req.body.name}','${req.body.city}','${req.body.country}','${
-      req.body.contactEmail
-    }');`;
+    const query = `INSERT INTO t_rechnungstermine (company_ID,date,amount,billNumber,dueDate,Komment) VALUES (${
+      req.body.company_ID
+    },'${req.body.date}',${req.body.amount},${
+      req.body.billNumber
+    },'${req.body.dueDate}','${req.body.Komment}');`;
     connection.query(query, (err, rows, fields) => {
       if (err) {
+        console.log('err', err);
         connection.end();
-        reject('Not able to create company');
+        reject('Not able to create bill');
       } else {
         connection.end();
         resolve({ affectedRows: rows.affectedRows });

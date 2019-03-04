@@ -25,7 +25,7 @@ const router = app => {
     }
     res.json(response);
   });
-  
+
   app.get('/company/:id', async (req, res) => {
     try {
       response.body = await require('./company/get')(req);
@@ -38,6 +38,24 @@ const router = app => {
   app.post('/company', async (req, res) => {
     try {
       response.body = await require('./company/create')(req);
+    } catch (err) {
+      res = internalServerError(err, res);
+    }
+    res.json(response);
+  });
+
+  app.get('/bill/:month/:year/:all/:billNo', async (req, res) => {
+    try {
+      response.body = await require('./bill/get')(req);
+    } catch (err) {
+      res = internalServerError(err, res);
+    }
+    res.json(response);
+  });
+
+  app.post('/bill', async (req, res) => {
+    try {
+      response.body = await require('./bill/create')(req);
     } catch (err) {
       res = internalServerError(err, res);
     }
