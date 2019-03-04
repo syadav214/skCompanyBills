@@ -1,5 +1,5 @@
 {
-  "name": "companybillapi",
+  "name": "company-bill-api",
   "version": "1.0.0",
   "description": "CRUD api for Companies and bills",
   "main": "index.js",

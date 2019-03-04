@@ -10,7 +10,6 @@ module.exports = req => {
     },'${req.body.dueDate}','${req.body.Komment}');`;
     connection.query(query, (err, rows, fields) => {
       if (err) {
-        console.log('err', err);
         connection.end();
         reject('Not able to create bill');
       } else {

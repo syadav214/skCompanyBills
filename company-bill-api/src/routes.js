@@ -44,6 +44,15 @@ const router = app => {
     res.json(response);
   });
 
+  app.get('/year', async (req, res) => {
+    try {
+      response.body = await require('./bill/getYear')(req);
+    } catch (err) {
+      res = internalServerError(err, res);
+    }
+    res.json(response);
+  });
+
   app.get('/bill/:month/:year/:all/:billNo', async (req, res) => {
     try {
       response.body = await require('./bill/get')(req);
