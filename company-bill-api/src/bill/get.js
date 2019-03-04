@@ -3,11 +3,9 @@ module.exports = req => {
   connection.connect();
 
   let query =
-    'SELECT C.name, B.company_ID,B.date,B.amount,B.billNumber,B.dueDate,B.Komment FROM t_rechnungstermine B JOIN t_firmen C ON B.company_ID = C.id ';
+    'SELECT C.name,DATE_FORMAT(B.date, "%Y.%m.%d") as date,B.amount,B.billNumber,B.dueDate,B.Komment as comment FROM t_rechnungstermine B JOIN t_firmen C ON B.company_ID = C.id ';
 
-  if (req.params.billNo !== '0') {
-    query += ` WHERE B.billNumber = ${req.params.billNo}`;
-  } else if (req.params.all === '0') {
+  if (req.params.all === '0') {
     if (req.params.month !== '0' && req.params.year === '0') {
       // single month - all year
       query += ` WHERE MONTH(B.date) = ${req.params.month}`;

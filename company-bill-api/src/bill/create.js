@@ -7,7 +7,7 @@ module.exports = req => {
       req.body.company_ID
     },'${req.body.date}',${req.body.amount},${
       req.body.billNumber
-    },'${req.body.dueDate}','${req.body.Komment}');`;
+    },'${req.body.dueDate}','${req.body.comment}');`;
     connection.query(query, (err, rows, fields) => {
       if (err) {
         connection.end();
