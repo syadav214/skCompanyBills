@@ -6,7 +6,7 @@ class App extends Component {
     return (
       <div className="centerPage">
         <br />
-        <div style={{ 'text-align': 'center' }}>
+        <div className="centerAlign">
           <h1>{process.env.REACT_APP_TITLE}</h1>
           <br />
         </div>
