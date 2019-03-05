@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { MDBDataTable } from 'mdbreact';
+import { MDBIcon, MDBDataTable, ToastContainer, toast } from 'mdbreact';
+import AddCompanyModal from '../component/AddCompanyModal';
+import AddBillModal from '../component/AddBillModal';
+import EditBillModal from '../component/EditBillModal';
 
 const url = process.env.REACT_APP_API;
 const apiKey = process.env.REACT_APP_API_KEY;
@@ -7,7 +10,13 @@ const apiKey = process.env.REACT_APP_API_KEY;
 class Bill extends Component {
   constructor() {
     super();
-    this.state = { billData: {}, yearsHtml: [] };
+    this.state = {
+      billData: {},
+      yearsHtml: [],
+      showAddComp: false,
+      showAddBill: false,
+      showEditBill: false
+    };
   }
 
   componentWillMount() {
@@ -72,6 +81,9 @@ class Bill extends Component {
     const columnsRows = {
       columns: [
         {
+          field: 'edit'
+        },
+        {
           label: 'Payment Date',
           field: 'date',
           sort: 'asc',
@@ -110,6 +122,13 @@ class Bill extends Component {
         if (data.success === true && data.body.length > 0) {
           data.body.map(el => {
             const objBill = {
+              field: (
+                <MDBIcon
+                  icon="edit"
+                  size="lg"
+                  onClick={this.showEditBillModal.bind(this)}
+                />
+              ),
               date: el.date,
               name: el.name,
               billNumber: el.billNumber,
@@ -126,17 +145,45 @@ class Bill extends Component {
       .catch(err => console.log('getBills - error', err));
   }
 
+  showAddCompanyModal(successWindow) {
+    if (successWindow === 'show') {
+      toast.success('Data saved Successfully.', {
+        position: 'top-center'
+      });
+    }
+    this.setState({ showAddComp: !this.state.showAddComp });
+  }
+
+  showAddBillModal() {
+    this.setState({ showAddBill: !this.state.showAddBill });
+  }
+
+  showEditBillModal() {
+    this.setState({ showEditBill: !this.state.showEditBill });
+  }
+
   render() {
-    const { billData, yearsHtml } = this.state;
+    const {
+      billData,
+      yearsHtml,
+      showAddComp,
+      showAddBill,
+      showEditBill
+    } = this.state;
     return (
       <div className="container">
-        <div class="row">
-          <div class="col text-left">
+        <ToastContainer
+          hideProgressBar={true}
+          newestOnTop={true}
+          autoClose={3000}
+        />
+        <div className="row">
+          <div className="col text-left">
             <button
               id="btnAddCompany"
               type="button"
               className="btn btn-secondary"
-              onClick={this.getBills.bind(this)}
+              onClick={this.showAddCompanyModal.bind(this)}
             >
               Add Company
             </button>
@@ -145,12 +192,12 @@ class Bill extends Component {
               id="btnAddBill"
               type="button"
               className="btn btn-secondary"
-              onClick={this.getBills.bind(this)}
+              onClick={this.showAddBillModal.bind(this)}
             >
               Add Bill
             </button>
           </div>
-          <div class="col text-right">
+          <div className="col text-right">
             <select
               id="month"
               className="custom-select"
@@ -188,11 +235,24 @@ class Bill extends Component {
             </button>
           </div>
         </div>
-        <div class="row">
-          <div class="col">
+        <div className="row">
+          <div className="col">
             <MDBDataTable striped bordered small data={billData} />
           </div>
         </div>
+
+        <AddCompanyModal
+          showAddComp={showAddComp}
+          showAddCompanyModal={this.showAddCompanyModal.bind(this)}
+        />
+        <AddBillModal
+          showAddBill={showAddBill}
+          showAddBillModal={this.showAddBillModal.bind(this)}
+        />
+        <EditBillModal
+          showEditBill={showEditBill}
+          showEditBillModal={this.showEditBillModal.bind(this)}
+        />
       </div>
     );
   }

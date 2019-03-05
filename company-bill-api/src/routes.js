@@ -1,4 +1,4 @@
-let response = { success: true, body: {} };
+const response = { success: true, body: {} };
 
 function internalServerError(err, res) {
   response.body = err;
@@ -9,6 +9,7 @@ function internalServerError(err, res) {
 
 const router = app => {
   app.get('/', (req, res) => {
+    response.success = true;
     response.body = {
       getCompanies: 'GET-> /company',
       getSingleCompany: 'GET-> /company/:id',
@@ -20,6 +21,7 @@ const router = app => {
   app.get('/company', async (req, res) => {
     try {
       response.body = await require('./company/get')(req);
+      response.success = true;
     } catch (err) {
       res = internalServerError(err, res);
     }
@@ -29,6 +31,7 @@ const router = app => {
   app.get('/company/:id', async (req, res) => {
     try {
       response.body = await require('./company/get')(req);
+      response.success = true;
     } catch (err) {
       res = internalServerError(err, res);
     }
@@ -38,6 +41,7 @@ const router = app => {
   app.post('/company', async (req, res) => {
     try {
       response.body = await require('./company/create')(req);
+      response.success = true;
     } catch (err) {
       res = internalServerError(err, res);
     }
@@ -47,6 +51,7 @@ const router = app => {
   app.get('/year', async (req, res) => {
     try {
       response.body = await require('./bill/getYear')(req);
+      response.success = true;
     } catch (err) {
       res = internalServerError(err, res);
     }
@@ -56,6 +61,7 @@ const router = app => {
   app.get('/bill/:month/:year/:all', async (req, res) => {
     try {
       response.body = await require('./bill/get')(req);
+      response.success = true;
     } catch (err) {
       res = internalServerError(err, res);
     }
@@ -65,6 +71,7 @@ const router = app => {
   app.post('/bill', async (req, res) => {
     try {
       response.body = await require('./bill/create')(req);
+      response.success = true;
     } catch (err) {
       res = internalServerError(err, res);
     }
