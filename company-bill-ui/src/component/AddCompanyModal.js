@@ -58,14 +58,11 @@ class AddCompanyModal extends Component {
   }
 
   render() {
+    const { showAddComp, showAddCompanyModal } = this.props;
     return (
       <div>
-        <MDBModal
-          isOpen={this.props.showAddComp}
-          toggle={this.props.showAddCompanyModal}
-          size="lg"
-        >
-          <MDBModalHeader toggle={this.props.showAddCompanyModal}>
+        <MDBModal isOpen={showAddComp} toggle={showAddCompanyModal} size="lg">
+          <MDBModalHeader toggle={showAddCompanyModal}>
             Add Company
           </MDBModalHeader>
           <MDBModalBody>
@@ -97,7 +94,7 @@ class AddCompanyModal extends Component {
             </MDBContainer>
           </MDBModalBody>
           <MDBModalFooter>
-            <MDBBtn color="secondary" onClick={this.props.showAddCompanyModal}>
+            <MDBBtn color="secondary" onClick={showAddCompanyModal}>
               Close
             </MDBBtn>
             <MDBBtn color="primary" onClick={this.saveCompany.bind(this)}>

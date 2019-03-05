@@ -147,14 +147,20 @@ class Bill extends Component {
 
   showAddCompanyModal(successWindow) {
     if (successWindow === 'show') {
-      toast.success('Data saved Successfully.', {
+      toast.success('Company saved Successfully.', {
         position: 'top-center'
       });
     }
     this.setState({ showAddComp: !this.state.showAddComp });
   }
 
-  showAddBillModal() {
+  showAddBillModal(successWindow) {
+    if (successWindow === 'show') {
+      toast.success('Bill saved Successfully.', {
+        position: 'top-center'
+      });
+      this.componentWillMount();
+    }
     this.setState({ showAddBill: !this.state.showAddBill });
   }
 
@@ -200,6 +206,7 @@ class Bill extends Component {
           <div className="col text-right">
             <select
               id="month"
+              style={{ width: '150px' }}
               className="custom-select"
               onChange={this.getBills.bind(this)}
             >
@@ -220,6 +227,7 @@ class Bill extends Component {
             &nbsp;
             <select
               id="year"
+              style={{ width: '150px' }}
               className="custom-select"
               onChange={this.getBills.bind(this)}
             >

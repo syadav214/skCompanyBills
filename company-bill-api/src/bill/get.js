@@ -20,6 +20,8 @@ module.exports = req => {
     }
   }
 
+  query += ` ORDER BY YEAR(B.date) `;
+
   return new Promise((resolve, reject) => {
     connection.query(query, (err, rows, fields) => {
       if (err) {
