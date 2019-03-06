@@ -2,11 +2,7 @@ module.exports = req => {
   const connection = req.dbConn;
   connection.connect();
 
-  let query = 'SELECT id,project_ID,name,city,country,contactEmail FROM t_firmen';
-
-  if (req.params.id) {
-    query += ` WHERE id = ${req.params.id};`;
-  }
+  const query = 'SELECT id,project_ID,name,city,country,contactEmail FROM t_firmen ORDER BY name';
 
   return new Promise((resolve, reject) => {
     connection.query(query, (err, rows, fields) => {

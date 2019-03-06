@@ -28,16 +28,6 @@ const router = app => {
     res.json(response);
   });
 
-  app.get('/company/:id', async (req, res) => {
-    try {
-      response.body = await require('./company/get')(req);
-      response.success = true;
-    } catch (err) {
-      res = internalServerError(err, res);
-    }
-    res.json(response);
-  });
-
   app.post('/company', async (req, res) => {
     try {
       response.body = await require('./company/create')(req);
@@ -58,7 +48,17 @@ const router = app => {
     res.json(response);
   });
 
-  app.get('/bill/:month/:year/:all', async (req, res) => {
+  app.get('/bill/:id', async (req, res) => {
+    try {
+      response.body = await require('./bill/get')(req);
+      response.success = true;
+    } catch (err) {
+      res = internalServerError(err, res);
+    }
+    res.json(response);
+  });
+
+  app.get('/bills/:month/:year/:all', async (req, res) => {
     try {
       response.body = await require('./bill/get')(req);
       response.success = true;
@@ -71,6 +71,16 @@ const router = app => {
   app.post('/bill', async (req, res) => {
     try {
       response.body = await require('./bill/create')(req);
+      response.success = true;
+    } catch (err) {
+      res = internalServerError(err, res);
+    }
+    res.json(response);
+  });
+
+  app.put('/bill/:id', async (req, res) => {
+    try {
+      response.body = await require('./bill/update')(req);      
       response.success = true;
     } catch (err) {
       res = internalServerError(err, res);

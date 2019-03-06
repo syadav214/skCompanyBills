@@ -43,7 +43,10 @@ class AddCompanyModal extends Component {
       })
         .then(result => result.json())
         .then(data => {
-          this.props.showAddCompanyModal('show');
+          toast.success('Company saved Successfully.', {
+            position: 'top-center'
+          });
+          setTimeout(() => this.props.showAddCompanyModal(), 1000);
         })
         .catch(err => {
           toast.error('Something went wrong.', {
@@ -58,10 +61,10 @@ class AddCompanyModal extends Component {
   }
 
   render() {
-    const { showAddComp, showAddCompanyModal } = this.props;
+    const { showAddCompanyModal } = this.props;
     return (
       <div>
-        <MDBModal isOpen={showAddComp} toggle={showAddCompanyModal} size="lg">
+        <MDBModal isOpen={true} toggle={showAddCompanyModal} size="lg">
           <MDBModalHeader toggle={showAddCompanyModal}>
             Add Company
           </MDBModalHeader>
@@ -69,7 +72,7 @@ class AddCompanyModal extends Component {
             <ToastContainer
               hideProgressBar={true}
               newestOnTop={true}
-              autoClose={3000}
+              autoClose={1500}
             />
             <MDBContainer>
               <div className="md-form">

@@ -52,7 +52,7 @@ class AddBillModal extends Component {
           });
         }
       })
-      .catch(err => console.log('getYear - error', err));
+      .catch(err => console.log('getCompany - error', err));
   }
 
   saveBill() {
@@ -84,7 +84,10 @@ class AddBillModal extends Component {
       })
         .then(result => result.json())
         .then(data => {
-          this.props.showAddBillModal('show');
+          toast.success('Bill saved Successfully.', {
+            position: 'top-center'
+          });
+          setTimeout(() => this.props.showAddBillModal('refresh'), 1000);
         })
         .catch(err => {
           toast.error('Something went wrong.', {
@@ -100,15 +103,15 @@ class AddBillModal extends Component {
 
   render() {
     const { companyHtml } = this.state;
-    const { showAddBill, showAddBillModal } = this.props;
+    const { showAddBillModal } = this.props;
     return (
-      <MDBModal isOpen={showAddBill} toggle={showAddBillModal} size="lg">
+      <MDBModal isOpen={true} toggle={showAddBillModal} size="lg">
         <MDBModalHeader toggle={showAddBillModal}>Add Bill</MDBModalHeader>
         <MDBModalBody>
           <ToastContainer
             hideProgressBar={true}
             newestOnTop={true}
-            autoClose={3000}
+            autoClose={1500}
           />
           <MDBContainer>
             <div className="md-form">

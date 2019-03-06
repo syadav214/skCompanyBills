@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { MDBIcon, MDBDataTable, ToastContainer, toast } from 'mdbreact';
+import { MDBIcon, MDBDataTable } from 'mdbreact';
 import AddCompanyModal from '../component/AddCompanyModal';
 import AddBillModal from '../component/AddBillModal';
 import EditBillModal from '../component/EditBillModal';
@@ -15,7 +15,8 @@ class Bill extends Component {
       yearsHtml: [],
       showAddComp: false,
       showAddBill: false,
-      showEditBill: false
+      showEditBill: false,
+      editBillID: 0
     };
   }
 
@@ -81,6 +82,7 @@ class Bill extends Component {
     const columnsRows = {
       columns: [
         {
+          label: 'Edit Bill',
           field: 'edit'
         },
         {
@@ -111,7 +113,7 @@ class Bill extends Component {
       rows: []
     };
 
-    fetch(url + `/bill/${month}/${year}/${all}`, {
+    fetch(url + `/bills/${month}/${year}/${all}`, {
       method: 'GET',
       headers: {
         'x-api-key': apiKey
@@ -126,6 +128,7 @@ class Bill extends Component {
                 <MDBIcon
                   icon="edit"
                   size="lg"
+                  id={el.id}
                   onClick={this.showEditBillModal.bind(this)}
                 />
               ),
@@ -145,27 +148,28 @@ class Bill extends Component {
       .catch(err => console.log('getBills - error', err));
   }
 
-  showAddCompanyModal(successWindow) {
-    if (successWindow === 'show') {
-      toast.success('Company saved Successfully.', {
-        position: 'top-center'
-      });
-    }
+  showAddCompanyModal() {
     this.setState({ showAddComp: !this.state.showAddComp });
   }
 
   showAddBillModal(successWindow) {
-    if (successWindow === 'show') {
-      toast.success('Bill saved Successfully.', {
-        position: 'top-center'
-      });
+    if (successWindow === 'refresh') {
       this.componentWillMount();
     }
     this.setState({ showAddBill: !this.state.showAddBill });
   }
 
-  showEditBillModal() {
-    this.setState({ showEditBill: !this.state.showEditBill });
+  showEditBillModal(successWindow) {
+    const updateState = {
+      showEditBill: !this.state.showEditBill,
+      editBillID: 0
+    };
+    if (successWindow === 'refresh') {
+      this.componentWillMount();
+    } else if (successWindow && successWindow.currentTarget) {
+      updateState.editBillID = successWindow.currentTarget.id;
+    }
+    this.setState(updateState);
   }
 
   render() {
@@ -174,15 +178,11 @@ class Bill extends Component {
       yearsHtml,
       showAddComp,
       showAddBill,
-      showEditBill
+      showEditBill,
+      editBillID
     } = this.state;
     return (
       <div className="container">
-        <ToastContainer
-          hideProgressBar={true}
-          newestOnTop={true}
-          autoClose={3000}
-        />
         <div className="row">
           <div className="col text-left">
             <button
@@ -248,19 +248,20 @@ class Bill extends Component {
             <MDBDataTable striped bordered small data={billData} />
           </div>
         </div>
-
-        <AddCompanyModal
-          showAddComp={showAddComp}
-          showAddCompanyModal={this.showAddCompanyModal.bind(this)}
-        />
-        <AddBillModal
-          showAddBill={showAddBill}
-          showAddBillModal={this.showAddBillModal.bind(this)}
-        />
-        <EditBillModal
-          showEditBill={showEditBill}
-          showEditBillModal={this.showEditBillModal.bind(this)}
-        />
+        {showAddComp && (
+          <AddCompanyModal
+            showAddCompanyModal={this.showAddCompanyModal.bind(this)}
+          />
+        )}
+        {showAddBill && (
+          <AddBillModal showAddBillModal={this.showAddBillModal.bind(this)} />
+        )}
+        {showEditBill && (
+          <EditBillModal
+            showEditBillModal={this.showEditBillModal.bind(this)}
+            id={editBillID}
+          />
+        )}
       </div>
     );
   }

@@ -2,17 +2,19 @@ module.exports = req => {
   const connection = req.dbConn;
   connection.connect();
 
-  const query = `INSERT INTO t_rechnungstermine (company_ID,date,amount,billNumber,dueDate,Komment) VALUES (${
-    req.body.company_ID
-  },'${req.body.date}',${req.body.amount},${req.body.billNumber},'${
-    req.body.dueDate
-  }','${req.body.comment}');`;
+  const query = `UPDATE t_rechnungstermine SET date = '${
+    req.body.date
+  }',amount = ${req.body.amount}, billNumber = ${
+    req.body.billNumber
+  }, dueDate = '${req.body.dueDate}', Komment = '${
+    req.body.comment
+  }'  WHERE id= ${req.params.id};`;
 
   return new Promise((resolve, reject) => {
     connection.query(query, (err, rows, fields) => {
       if (err) {
         connection.end();
-        reject('Not able to create bill');
+        reject('Not able to update bill');
       } else {
         connection.end();
         resolve({ affectedRows: rows.affectedRows });
