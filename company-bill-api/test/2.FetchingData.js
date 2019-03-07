@@ -1,13 +1,8 @@
-const chai = require('chai'),
-  supertest = require('supertest'),
-  dotenv = require('dotenv'),
-  app = require('../src/app');
-
-dotenv.config();
+const { chai, supertest, api } = global;
 
 describe('Company Tests', () => {
   it('should get response from the /company route', done => {
-    supertest(app)
+    api
       .get('/company')
       .set('x-api-key', process.env.APIKEY)
       .end((err, res) => {
@@ -18,7 +13,7 @@ describe('Company Tests', () => {
   });
 
   it('should get response from the /bills route', done => {
-    supertest(app)
+    api
       .get('/bills/0/0/1')
       .set('x-api-key', process.env.APIKEY)
       .end((err, res) => {
@@ -33,7 +28,7 @@ describe('Company Tests', () => {
   });
 
   it('should get response from the /bill route', done => {
-    supertest(app)
+    api
       .get(`/bill/${global.billID}`)
       .set('x-api-key', process.env.APIKEY)
       .end((err, res) => {
@@ -44,7 +39,7 @@ describe('Company Tests', () => {
   });
 
   it('should get response from the /year route', done => {
-    supertest(app)
+    api
       .get('/year')
       .set('x-api-key', process.env.APIKEY)
       .end((err, res) => {

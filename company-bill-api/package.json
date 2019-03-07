@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/app.js",
-    "test": "JUNIT_REPORT_PATH=test-result/api-result.xml JUNIT_REPORT_STACK=1 mocha --reporter mocha-jenkins-reporter || true"
+    "test": "JUNIT_REPORT_PATH=test-result/api-result.xml JUNIT_REPORT_STACK=1 mocha --colors --reporter mocha-jenkins-reporter || true"
   },
   "repository": {
     "type": "git",
